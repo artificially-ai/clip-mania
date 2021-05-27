@@ -1,0 +1,20 @@
+name: clip-mania
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.8
+  - cudatoolkit
+  - pip
+  - pip:
+      - numpy
+      - pandas
+      - torch
+      - torchvision
+      - scikit-image
+      - ftfy
+      - regex
+      - tqdm
+      - pillow
+      - pytest
+      - git+https://github.com/openai/CLIP.git
