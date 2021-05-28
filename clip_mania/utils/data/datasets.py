@@ -32,4 +32,4 @@ class FewShotDataset(Dataset):
         if self.transform:
             image = self.transform(image)
 
-        return prompt, image
+        return image, prompt
