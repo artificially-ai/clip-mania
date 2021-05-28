@@ -37,15 +37,44 @@ test/test_dataset/test_preprocess.py .                                          
 
 [wip]
 
-### Locally
+### Preparing the Dataset
+
+To get your custom dataset working you don't have to too much, only preparing the directory structure should be enough.
+
+The directory structure that the system expects is depicted below:
+
+```shell script
+-> dataset
+   -> train
+      -> dog
+      -> cat
+   -> eval
+      -> dog
+      -> cat
+   -> test
+      -> dog
+      -> cat
+```  
+
+Below you can find a code snippet used to create a `PyTorch` compliant `Dataset`:
+
+```python
+from clip_mania.utils.data.datasets import FewShotDataset
+
+dataset = FewShotDataset('/somewhere/dataset/train')
+```
+
+### Running Locally
 
 [wip]
 
-### With Docker
+### Running with Docker
 
 [wip]
 
 ## Web Service for Inference
+
+[wip]
 
 ### Running the Web Service Locally
 
