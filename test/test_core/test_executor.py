@@ -35,7 +35,7 @@ class TestModelExecutor(TestCase):
         self.assertIsNotNone(model)
         self.assertIsNotNone(preprocess)
 
-        classes = ["a diagram", "a dog", "a cat", "an airplane"]
+        classes = ["a bird", "a dog", "a cat", "a airplane"]
         image_path = os.path.join(self.current_path, "dataset/test/airplane/airplane.jpg")
 
         image = preprocess(PIL.Image.open(image_path)).unsqueeze(0).to(self.device)
