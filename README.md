@@ -1,4 +1,4 @@
-# Clip Mania
+# CLIP Mania
 Custom training with OpenAI CLIP; classification tasks; zero-shot examples; and a fully dockerised web-service.
 
 ## Development Environment
