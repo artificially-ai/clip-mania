@@ -21,7 +21,7 @@ setup(name='clip_mania',
           'pillow',
           'pytest',
           'absl-py',
-          'git+https://github.com/openai/CLIP.git'],
+          'CLIP @ git+ssh://git@github.com/openai/CLIP.git'],
       classifiers=[
           'Development Status :: 2 - Pre-Alpha',
           'Intended Audience :: Developers',

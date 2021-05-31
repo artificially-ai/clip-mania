@@ -8,6 +8,8 @@ from torch import nn
 from torch.utils.data import DataLoader
 from torchvision.transforms import Compose
 
+from tqdm import tqdm
+
 from clip_mania.utils.data.datasets import FewShotDataset
 
 
@@ -54,7 +56,7 @@ class ModelExecutor:
 
         dataset = FewShotDataset(dataset_path)
         train_dataloader = DataLoader(dataset, batch_size=self.batch_size)
-        for epoch in range(epochs):
+        for epoch in tqdm(range(epochs)):
             for batch in train_dataloader:
                 optimizer.zero_grad()
 
