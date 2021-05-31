@@ -35,7 +35,11 @@ test/test_dataset/test_preprocess.py .                                          
 
 ## Training
 
-[wip]
+To understand how the mode is trained, you can have a look at the [test executor](test/test_core/test_executor.py), which
+performs a quick test just to make sure the code is working fine. The same piece of code is used in the training
+application.
+
+Before you proceed to train with your dataset, please check below how you have to structure it.
 
 ### Preparing the Dataset
 
@@ -66,7 +70,17 @@ dataset = FewShotDataset('/somewhere/dataset/train')
 
 ### Running Locally
 
-[wip]
+Before you start training, please install CLIP Mania:
+
+```shell script
+pip install -e .
+```
+
+After that, the training can be started with command below:
+
+```shell script
+python -m clip_mania.application.train --dataset_path /path/to/dataset/train --epochs 10
+```
 
 ### Running with Docker
 
