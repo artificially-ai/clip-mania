@@ -3,6 +3,7 @@ from setuptools import find_packages
 
 
 setup(name='clip_mania',
+      py_modules='clip_mania',
       version='0.0.1',
       description='Custom training with OpenAI CLIP; classification tasks; zero-shot examples; and a fully '
                   'dockerised web-service.',
@@ -12,16 +13,18 @@ setup(name='clip_mania',
       install_requires=[
           'numpy',
           'pandas',
-          'torch',
-          'torchvision',
+          'torch~=1.7.1',
+          'torchvision~=0.8.2',
           'scikit-image',
           'ftfy',
           'regex',
           'tqdm',
           'pillow',
-          'pytest',
           'absl-py',
-          'CLIP @ git+ssh://git@github.com/openai/CLIP.git'],
+          'CLIP @ git+https://github.com/openai/CLIP.git'],
+      extras_require={
+          'dev': ['pytest']
+      },
       classifiers=[
           'Development Status :: 2 - Pre-Alpha',
           'Intended Audience :: Developers',

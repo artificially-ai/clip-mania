@@ -46,8 +46,7 @@ class ModelExecutor:
 
     def train(self, dataset_path, model_name="ViT-B/32", epochs=10) -> Tuple[nn.Module, Compose]:
         device = "cuda" if torch.cuda.is_available() else "cpu"
-        # No need to pass the device as the clip.load call already has it.
-        clip_model, preprocess = clip.load(name=model_name, jit=False)
+        clip_model, preprocess = clip.load(name=model_name, device=device, jit=False)
 
         loss_img = nn.CrossEntropyLoss()
         loss_txt = nn.CrossEntropyLoss()
