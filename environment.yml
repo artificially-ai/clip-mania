@@ -17,4 +17,5 @@ dependencies:
       - tqdm
       - pillow
       - pytest
+      - absl-py
       - git+https://github.com/openai/CLIP.git
