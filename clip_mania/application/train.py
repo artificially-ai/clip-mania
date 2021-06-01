@@ -13,6 +13,8 @@ flags.DEFINE_string(name='model_output_path', default=None,  help='Absolute path
 
 flags.DEFINE_integer(name='epochs', default=None, help='Number of epochs to be trained on.', required=True)
 
+flags.DEFINE_string(name='model_name', default="clip_mania_model.pt",  help='Model file name.')
+
 flags.register_validator('dataset_path',
                          lambda value: type(value) is str and os.path.isdir(value),
                          message='--dataset_path must be a valid directory.')
@@ -29,11 +31,12 @@ flags.register_validator('epochs',
 def main(_args):
     dataset_path = FLAGS.dataset_path
     model_output_path = FLAGS.model_output_path
+    model_name = FLAGS.model_name
     epochs = FLAGS.epochs
 
     executor = ModelExecutor(batch_size=8, lr=1e-8, weight_decay=0.1)
     model, preprocess = executor.train(dataset_path, epochs=epochs)
-    ModelExecutor.save_model(model, model_output_path, "clip_mania_model.pt")
+    ModelExecutor.save_model(model, model_output_path, model_name)
 
 
 if __name__ == '__main__':

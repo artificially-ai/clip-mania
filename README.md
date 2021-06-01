@@ -43,7 +43,7 @@ Before you proceed to train with your dataset, please check below how you have t
 
 ### Preparing the Dataset
 
-To get your custom dataset working you don't have to too much, only preparing the directory structure should be enough.
+To get your custom dataset working you don't have to do much, only preparing the directory structure should be enough.
 
 The directory structure that the system expects is depicted below:
 
@@ -60,17 +60,10 @@ The directory structure that the system expects is depicted below:
       -> cat
 ```  
 
-Below you can find a code snippet used to create a `PyTorch` compliant `Dataset`:
+### Training from the Terminal
 
-```python
-from clip_mania.utils.data.datasets import FewShotDataset
-
-dataset = FewShotDataset('/somewhere/dataset/train')
-```
-
-### Running Locally
-
-Before you start training, please install CLIP Mania (make sure the Conda environment has been created and is activate):
+Before you start training, please install CLIP Mania (make sure that the Conda environment has been created and is
+activate):
 
 ```shell script
 pip install .[dev]
@@ -81,24 +74,56 @@ The command above will also install the development dependencies, which includes
 After that, the training can be started with command below:
 
 ```shell script
-python -m clip_mania.application.train --dataset_path /path/to/dataset/train --model_output_path .  --epochs 5
+python -m clip_mania.application.train --dataset_path /path/to/dataset/train --model_output_path .  --epochs 3
 ```
 
-### Running with Docker
+The name of the model file to be saved is defaulted to 'clip_mania_model.pt' under the given `--model_output_path`.
+
+### Training with Docker
 
 [wip]
 
-## Web Service for Inference
+## Inference
 
-[wip]
+The repository provides a few ways to infer the classes of unseen images. 
+
+### Using the provided Application
+
+To be able to run the inference on top of your test dataset, the project requires that the dataset is structured in the
+following way:
+
+```shell script
+-> dataset
+   -> train
+      -> dog
+      -> cat
+   -> eval
+      -> dog
+      -> cat
+   -> test
+      -> dog
+      -> cat
+```  
+
+For inference we will be using the `test` directory, meaning that its absolute path has to be informed when running
+the Inference Application.
+
+The code below should help you to get the inference running. For now, we have no plots and no metrics being displayed.
+However, we are logging the tru class, the predicted class and the probability. Soon we will have some better metrics
+and plots in place.
+
+```shell script
+python -m clip_mania.application.inference --test_dataset_path /path/to/dataset/test --model_path ./clip_mania_model.pt
+```
 
 ### Running the Web Service Locally
 
-```shell script
-python -m clip_mania.application.inference --test_dataset_path \
-          ./test/test_core/dataset/train/airplane/airplane1.jpg --model_path ./clip_mania_model
-```
+[wip]
 
 ### Running the Web Service with Docker
+
+[wip]
+
+## Zero-Shot on the Custom Model
 
 [wip]
