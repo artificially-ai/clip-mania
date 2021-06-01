@@ -30,12 +30,12 @@ class TestModelExecutor(TestCase):
 
     def test_train(self):
         dataset_path = os.path.join(self.current_path, "dataset/train")
-        executor = ModelExecutor()
-        model, preprocess = executor.train(dataset_path, epochs=2)
+        executor = ModelExecutor(batch_size=1)
+        model, preprocess = executor.train(dataset_path, epochs=1)
         self.assertIsNotNone(model)
         self.assertIsNotNone(preprocess)
 
-        classes = ["a bird", "a dog", "a cat", "a airplane"]
+        classes = ["a bird", "a dog", "a cat", "an airplane"]
         image_path = os.path.join(self.current_path, "dataset/test/airplane/airplane.jpg")
 
         image = preprocess(PIL.Image.open(image_path)).unsqueeze(0).to(self.device)
@@ -52,6 +52,9 @@ class TestModelExecutor(TestCase):
         prediction = classes[max_index]
         expected_prob = probs.flatten()[3]
         highest_prob = probs.flatten()[max_index]
-        print(f"Expected 'an airplane', but got '{prediction}'")
+        self.assertTrue(expected_prob > 0.9)
+        self.assertTrue(expected_prob == highest_prob)
+        self.assertTrue(prediction == "an airplane")
+        print(f"\nExpected 'an airplane' and  got '{prediction}'")
         print(f"Probability for the expected prompt was '{expected_prob:.4f}'")
         print(f"Highest probability was '{highest_prob:.4f}'")

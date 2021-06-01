@@ -23,7 +23,7 @@ class TestModelLoading(TestCase):
         self.assertIsNotNone(self.model)
 
     def test_inference(self):
-        classes = ["a diagram", "a dog", "a cat", "an airplane"]
+        classes = ["a bird", "a dog", "a cat", "an airplane"]
         image_path = os.path.join(self.current_path, "dataset/train/airplane/airplane1.jpg")
         image = self.preprocess(PIL.Image.open(image_path)).unsqueeze(0).to(self.device)
         text = clip.tokenize(classes).to(self.device)

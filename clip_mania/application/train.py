@@ -5,9 +5,10 @@ from absl.flags import FLAGS
 
 from clip_mania.core.executor import ModelExecutor
 
-flags.DEFINE_string(name='dataset_path', default=None, help='Absolute path to the dataset location.', required=True)
+flags.DEFINE_string(name='dataset_path', default=None, help='Absolute path to the dataset location.',
+                    required=True)
 
-flags.DEFINE_string(name='model_output_path', default=None, help='Absolute path where to save the model.',
+flags.DEFINE_string(name='model_output_path', default=None,  help='Absolute path where to save the model.',
                     required=True)
 
 flags.DEFINE_integer(name='epochs', default=None, help='Number of epochs to be trained on.', required=True)
@@ -30,9 +31,9 @@ def main(_args):
     model_output_path = FLAGS.model_output_path
     epochs = FLAGS.epochs
 
-    executor = ModelExecutor(batch_size=2, weight_decay=0.1)
+    executor = ModelExecutor(batch_size=8)
     model, preprocess = executor.train(dataset_path, epochs=epochs)
-    ModelExecutor.save_model(model, model_output_path)
+    ModelExecutor.save_model(model, model_output_path, "clip_mania_model.pt")
 
 
 if __name__ == '__main__':

@@ -14,6 +14,7 @@ from tqdm import tqdm
 from absl import logging
 
 from clip_mania.utils.data.datasets import FewShotDataset
+from clip_mania.utils.data.preprocess import DatasetProcessor
 
 
 class ModelExecutor:
@@ -72,23 +73,23 @@ class ModelExecutor:
         optimizer = Adam(clip_model.parameters(), lr=self.lr, betas=self.betas,
                          eps=self.eps, weight_decay=self.weight_decay)
 
+        indexed_prompts = DatasetProcessor.create_indexed_prompts(dataset_path)
+        classes = list(indexed_prompts.values())
+
         dataset = FewShotDataset(dataset_path)
-        train_dataloader = DataLoader(dataset, batch_size=self.batch_size)
+        train_dataloader = DataLoader(dataset, batch_size=self.batch_size, drop_last=True)
         total_loss = None
         for epoch in tqdm(range(epochs)):
             for batch in train_dataloader:
                 optimizer.zero_grad()
 
-                images, prompts = batch
+                images, labels = batch
 
                 images = torch.stack([img for img in images], dim=0).to(device)
-                prompts = clip.tokenize(prompts).to(device)
+                prompts = clip.tokenize(labels).to(device)
 
                 logits_per_image, logits_per_text = clip_model(images, prompts)
-                if device == "cpu":
-                    ground_truth = torch.arange(self.batch_size).long().to(device)
-                else:
-                    ground_truth = torch.arange(self.batch_size).half().to(device)
+                ground_truth = torch.tensor(classes).long().to(device)
 
                 total_loss = (loss_img(logits_per_image, ground_truth) + loss_txt(logits_per_text, ground_truth)) / 2
 
@@ -98,7 +99,7 @@ class ModelExecutor:
                 else:
                     self.convert_models_to_fp32(clip_model)
                     optimizer.step()
-                    clip_model.model.convert_weights(clip_model)
+                    clip.model.convert_weights(clip_model)
             logging.info(f"Total loss on epoch '{epoch}' is '{total_loss}.'")
         return clip_model, preprocess
 

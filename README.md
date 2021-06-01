@@ -81,7 +81,7 @@ The command above will also install the development dependencies, which includes
 After that, the training can be started with command below:
 
 ```shell script
-python -m clip_mania.application.train --dataset_path /path/to/dataset/train --epochs 10
+python -m clip_mania.application.train --dataset_path /path/to/dataset/train --model_output_path .  --epochs 5
 ```
 
 ### Running with Docker
@@ -94,7 +94,10 @@ python -m clip_mania.application.train --dataset_path /path/to/dataset/train --e
 
 ### Running the Web Service Locally
 
-[wip]
+```shell script
+python -m clip_mania.application.inference --test_dataset_path \
+          ./test/test_core/dataset/train/airplane/airplane1.jpg --model_path ./clip_mania_model
+```
 
 ### Running the Web Service with Docker
 
