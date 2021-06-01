@@ -70,11 +70,13 @@ dataset = FewShotDataset('/somewhere/dataset/train')
 
 ### Running Locally
 
-Before you start training, please install CLIP Mania:
+Before you start training, please install CLIP Mania (make sure the Conda environment has been created and is activate):
 
 ```shell script
-pip install -e .
+pip install .[dev]
 ```
+
+The command above will also install the development dependencies, which includes `pytest`.
 
 After that, the training can be started with command below:
 
