@@ -1,3 +1,5 @@
+import os
+
 from typing import List, Tuple
 
 import clip
@@ -9,6 +11,7 @@ from torch.utils.data import DataLoader
 from torchvision.transforms import Compose
 
 from tqdm import tqdm
+from absl import logging
 
 from clip_mania.utils.data.datasets import FewShotDataset
 
@@ -44,9 +47,25 @@ class ModelExecutor:
             p.data = p.data.float()
             p.grad.data = p.grad.data.float()
 
+    @staticmethod
+    def save_model(model, model_path, model_name):
+        assert model_name, "The model_name parameter cannot be null."
+        assert os.path.isdir(model_path), "The model_path parameter must be directory."
+
+        if not os.path.exists(model_path):
+            os.mkdir(model_path)
+
+        abs_name = os.path.join(model_path, model_name)
+        torch.save({
+            'model_state_dict': model.state_dict(),
+        }, abs_name)
+
     def train(self, dataset_path, model_name="ViT-B/32", epochs=10) -> Tuple[nn.Module, Compose]:
         device = "cuda" if torch.cuda.is_available() else "cpu"
         clip_model, preprocess = clip.load(name=model_name, device=device, jit=False)
+
+        if device == "cuda":
+            clip_model = clip_model.train().to(device)
 
         loss_img = nn.CrossEntropyLoss()
         loss_txt = nn.CrossEntropyLoss()
@@ -55,14 +74,15 @@ class ModelExecutor:
 
         dataset = FewShotDataset(dataset_path)
         train_dataloader = DataLoader(dataset, batch_size=self.batch_size)
+        total_loss = None
         for epoch in tqdm(range(epochs)):
             for batch in train_dataloader:
                 optimizer.zero_grad()
 
                 images, prompts = batch
 
-                images = torch.stack([img for img in images], dim=0)
-                prompts = clip.tokenize(prompts)
+                images = torch.stack([img for img in images], dim=0).to(device)
+                prompts = clip.tokenize(prompts).to(device)
 
                 logits_per_image, logits_per_text = clip_model(images, prompts)
                 if device == "cpu":
@@ -71,6 +91,7 @@ class ModelExecutor:
                     ground_truth = torch.arange(self.batch_size).half().to(device)
 
                 total_loss = (loss_img(logits_per_image, ground_truth) + loss_txt(logits_per_text, ground_truth)) / 2
+
                 total_loss.backward()
                 if device == "cpu":
                     optimizer.step()
@@ -78,4 +99,11 @@ class ModelExecutor:
                     self.convert_models_to_fp32(clip_model)
                     optimizer.step()
                     clip_model.model.convert_weights(clip_model)
+            logging.info(f"Total loss on epoch '{epoch}' is '{total_loss}.'")
         return clip_model, preprocess
+
+
+class FewShotExecutor:
+
+    def __init__(self):
+        pass

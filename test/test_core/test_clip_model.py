@@ -29,8 +29,8 @@ class TestModelLoading(TestCase):
         text = clip.tokenize(classes).to(self.device)
 
         with torch.no_grad():
-            _image_features = self.model.encode_image(image)
-            _text_features = self.model.encode_text(text)
+            _image_features = self.model.encode_image(image).to(self.device)
+            _text_features = self.model.encode_text(text).to(self.device)
 
             logits_per_image, logits_per_text = self.model(image, text)
             probs = logits_per_image.softmax(dim=-1).cpu().numpy()
