@@ -12,6 +12,7 @@ import clip
 import numpy as np
 
 from clip_mania.core.executor import ModelExecutor
+from clip_mania.utils.data.preprocess import DatasetProcessor
 
 
 class TestModelExecutor(TestCase):
@@ -30,12 +31,13 @@ class TestModelExecutor(TestCase):
 
     def test_train(self):
         dataset_path = os.path.join(self.current_path, "dataset/train")
-        executor = ModelExecutor(batch_size=1)
+        executor = ModelExecutor(batch_size=2, lr=1e-8, weight_decay=0.1)
         model, preprocess = executor.train(dataset_path, epochs=1)
         self.assertIsNotNone(model)
         self.assertIsNotNone(preprocess)
 
-        classes = ["a bird", "a dog", "a cat", "an airplane"]
+        prompts = DatasetProcessor.create_indexed_prompts(dataset_path)
+        classes = list(prompts.keys())
         image_path = os.path.join(self.current_path, "dataset/test/airplane/airplane.jpg")
 
         image = preprocess(PIL.Image.open(image_path)).unsqueeze(0).to(self.device)
@@ -50,11 +52,12 @@ class TestModelExecutor(TestCase):
 
         max_index = np.argmax(probs)
         prediction = classes[max_index]
-        expected_prob = probs.flatten()[3]
+        expected_prob = probs.flatten()[1]
         highest_prob = probs.flatten()[max_index]
-        self.assertTrue(expected_prob > 0.9)
+        self.assertTrue(expected_prob > 0.7)
         self.assertTrue(expected_prob == highest_prob)
-        self.assertTrue(prediction == "an airplane")
-        print(f"\nExpected 'an airplane' and  got '{prediction}'")
+        self.assertTrue(prediction == "This is a picture of a(n) airplane.")
+        print(f"\nExpected 'This is a picture of a(n) airplane.' and  got '{prediction}'")
         print(f"Probability for the expected prompt was '{expected_prob:.4f}'")
+        print(f"Expected probability was '{expected_prob:.4f}'")
         print(f"Highest probability was '{highest_prob:.4f}'")

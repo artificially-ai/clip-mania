@@ -31,7 +31,7 @@ def main(_args):
     model_output_path = FLAGS.model_output_path
     epochs = FLAGS.epochs
 
-    executor = ModelExecutor(batch_size=8)
+    executor = ModelExecutor(batch_size=8, lr=1e-8, weight_decay=0.1)
     model, preprocess = executor.train(dataset_path, epochs=epochs)
     ModelExecutor.save_model(model, model_output_path, "clip_mania_model.pt")
 
