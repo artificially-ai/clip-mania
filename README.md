@@ -1,5 +1,12 @@
 # CLIP Mania
-Custom training with OpenAI CLIP; classification tasks; zero-shot examples; and a fully dockerised web-service.
+
+Custom training with OpenAI CLIP; classification tasks; zero-shot examples; and a fully dockerised web-service for inference.
+
+## CLIP in a Nutshell
+
+![CLIP](images/CLIP.png)
+
+[Paper](https://arxiv.org/pdf/2103.00020.pdf) | [Repository](https://github.com/openai/CLIP)
 
 ## Development Environment
 
@@ -24,13 +31,14 @@ Depending on the amount of tests added over time, the output should look somethi
 ===================================== test session starts =====================================
 platform darwin -- Python 3.8.10, pytest-6.2.4, py-1.10.0, pluggy-0.13.1
 rootdir: /Users/wilderrodrigues/dev/git/artificially-ai/clip-mania
-collected 7 items
+collected 8 items
 
-test/test_core/test_clip_model.py ..                                                   [ 28%]
-test/test_core/test_executor.py ..                                                     [ 57%]
-test/test_dataset/test_fewshot_dataset.py ..                                           [ 85%]
-test/test_dataset/test_preprocess.py .                                                 [100%]
-===================================== 7 passed in 25.55s =====================================
+test/test_core/test_clip_model.py ..                                                     [ 25%]
+test/test_core/test_executor.py ..                                                       [ 50%]
+test/test_dataset/test_fewshot_dataset.py ..                                             [ 75%]
+test/test_dataset/test_preprocess.py ..                                                  [100%]
+
+===================================== 8 passed in 22.74s ======================================
 ```
 
 ## Training
@@ -165,3 +173,18 @@ I0601 22:21:31.232240 139667949066048 inference.py:68] Inference completed.
 ## Zero-Shot on the Custom Model
 
 [wip]
+
+## Acknowledgments
+
+I would like to thank the GitHub user [vinson2233](https://github.com/vinson2233) for the initial code snipped. Some
+adjustments and bug fixes were enough to get it to work.
+
+## Author
+
+```angular2html
+@article{Artificially Advanced Intelligence - (2A)^I,
+    title={Wild, wilder, wildest: Few and Zero-Shot Learning on Custom Datasets},
+    author={Wilder Rodrigues},
+    year={2021}
+}
+```
