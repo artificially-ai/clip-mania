@@ -74,7 +74,7 @@ The command above will also install the development dependencies, which includes
 After that, the training can be started with command below:
 
 ```shell script
-python -m clip_mania.application.train --dataset_path /path/to/dataset/train --model_output_path .  --epochs 3
+python -m clip_mania.application.train --dataset_path /path/to/dataset/train --model_output_path .
 ```
 
 The name of the model file to be saved is defaulted to 'clip_mania_model.pt' under the given `--model_output_path`.
