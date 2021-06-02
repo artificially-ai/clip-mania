@@ -31,7 +31,8 @@ class TestModelExecutor(TestCase):
 
     def test_train(self):
         dataset_path = os.path.join(self.current_path, "dataset/train")
-        executor = ModelExecutor(batch_size=2, lr=1e-8, weight_decay=0.1)
+        batch_size = 2  # number of classes
+        executor = ModelExecutor(batch_size=batch_size, lr=1e-8, weight_decay=0.1)
         model, preprocess = executor.train(dataset_path, epochs=1)
         self.assertIsNotNone(model)
         self.assertIsNotNone(preprocess)
