@@ -124,8 +124,10 @@ and plots in place.
 python -m clip_mania.application.inference --test_dataset_path /path/to/dataset/test --model_path ./clip_mania_model.pt
 ```
 
-Since we still have neither plots not metrics in place to exhibit the custom model's performance, we added some logging
-during inference time to show the current class (based on the image path), the max probability and the predicted class.
+Since we still have neither plots nor metrics in place to exhibit the custom model's performance, we added some logging
+taken during inference time to show the expected class (based on the image path), the max probability and the predicted
+class.
+
 Below you can find a snippet of the logging output:
 
 ```shell script
