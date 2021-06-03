@@ -37,8 +37,11 @@ def main(_args):
     model_path = FLAGS.model_path
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
+
+    logging.info("Loading the pre-trained model...")
     model, preprocess = clip.load("ViT-B/32", device=device, jit=False)
 
+    logging.info("Loading the custom model'' state dictionary...")
     checkpoint = torch.load(model_path)
     model.load_state_dict(checkpoint['model_state_dict'])
     model = model.eval().to(device)
@@ -57,6 +60,7 @@ def main(_args):
     # regex_p = re.compile(predicted_pattern)
 
     results = {"y": [], "y_hat": [], "predicted_prompt": [], "probability": []}
+    logging.info("Starting inference...")
     for image_path in tqdm(images):
         image = preprocess(PIL.Image.open(image_path)).unsqueeze(0).to(device)
         expected_prompt = f"This is a picture of a(n) {regex_e.search(image_path).group()}."
