@@ -80,7 +80,7 @@ def main(_args):
             else:
                 results[predicted_class] = [prob]
 
-    results_df = pd.DataFrame.from_dict(data=results)
+    results_df = pd.DataFrame(dict([(k, pd.Series(v)) for k, v in results.items()]))
     results_df.to_csv("inference_results.csv", index=False)
 
 
