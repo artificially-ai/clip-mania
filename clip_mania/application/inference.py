@@ -48,15 +48,16 @@ def main(_args):
     full_path = os.path.join(test_dataset_path, "**/*.jpg")
     images = glob.glob(full_path, recursive=True)
 
-    expected_pattern = r"(?<=test/)((?!=\D)).+(?=/(?=[\d|\D]))"
+    expected_pattern = r"(?<=dataset/test/)((?!=\D)).+(?=/(?=[\d|\D]))"
     regex_e = re.compile(expected_pattern)
-    predicted_pattern = r"(?<=\)\s).*[^\.]"
-    regex_p = re.compile(predicted_pattern)
+    # I like this Regex. :)
+    # predicted_pattern = r"(?<=\)\s).*[^\.]"
+    # regex_p = re.compile(predicted_pattern)
 
-    results = {}
+    results = {"y": [], "y_hat": [], "predicted_prompt": [], "probability": []}
     for image_path in images:
         image = preprocess(PIL.Image.open(image_path)).unsqueeze(0).to(device)
-        expected_class = "_".join([regex_e.search(image_path).group(), "y"])
+        expected_prompt = f"This is a picture of a(n) {regex_e.search(image_path).group()}."
 
         with torch.no_grad():
             _image_features = model.encode_image(image).to(device)
@@ -67,18 +68,12 @@ def main(_args):
 
             max_index = np.argmax(probs)
             prediction = prompts[max_index]
-            predicted_class = "_".join([regex_p.search(prediction).group(), "y_hat"])
-
             prob = probs.flatten()[max_index]
 
-            if expected_class in results:
-                results[expected_class].append(1)
-            else:
-                results[expected_class] = [1]
-            if predicted_class in results:
-                results[predicted_class].append(prob)
-            else:
-                results[predicted_class] = [prob]
+            results["y"].append(indexed_prompts[expected_prompt])
+            results["y_hat"].append(probs)
+            results["predicted_prompt"].append(prediction)
+            results["probability"].append(prob)
 
     results_df = pd.DataFrame(dict([(k, pd.Series(v)) for k, v in results.items()]))
     results_df.to_csv("inference_results.csv", index=False)
