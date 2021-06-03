@@ -43,7 +43,7 @@ test/test_dataset/test_preprocess.py ..                                         
 
 ## Training
 
-To understand how the mode is trained, you can have a look at the [test executor](test/test_core/test_executor.py), which
+To understand how the mode is trained, you can have a look at the [test executor](tests/test_core/test_executor.py), which
 performs a quick test just to make sure the code is working fine. The same piece of code is used in the training
 application.
 

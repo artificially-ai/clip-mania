@@ -48,7 +48,7 @@ def main(_args):
     full_path = os.path.join(test_dataset_path, "**/*.jpg")
     images = glob.glob(full_path, recursive=True)
 
-    expected_pattern = r"(?<=dataset/test/)((?!=\D)).+(?=/(?=[\d|\D]))"
+    expected_pattern = r"(?<=/test/)((?!=\D)).+(?=/(?=[\d|\D]))"
     regex_e = re.compile(expected_pattern)
     # I like this Regex. :)
     # predicted_pattern = r"(?<=\)\s).*[^\.]"
