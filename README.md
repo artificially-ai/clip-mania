@@ -124,45 +124,36 @@ and plots in place.
 python -m clip_mania.application.inference --test_dataset_path /path/to/dataset/test --model_path ./clip_mania_model.pt
 ```
 
-Since we still have neither plots nor metrics in place to exhibit the custom model's performance, we added some logging
-taken during inference time to show the expected class (based on the image path), the max probability and the predicted
-class.
+#### Results
 
-Below you can find a snippet of the logging output:
+We got the results!
 
-```shell script
-I0601 22:21:30.909853 139667949066048 inference.py:59] Image path: ./dataset/coco_crops_few_shot/test/train/000000486571_174704.jpg
-I0601 22:21:30.909930 139667949066048 inference.py:60] Max probability is: 0.96728515625
-I0601 22:21:30.910000 139667949066048 inference.py:61] Predicted class is: This is a picture of a(n) train.
-I0601 22:21:30.944446 139667949066048 inference.py:59] Image path: ./dataset/coco_crops_few_shot/test/train/000000446199_173494.jpg
-I0601 22:21:30.944510 139667949066048 inference.py:60] Max probability is: 0.98583984375
-I0601 22:21:30.944578 139667949066048 inference.py:61] Predicted class is: This is a picture of a(n) train.
-I0601 22:21:30.980922 139667949066048 inference.py:59] Image path: ./dataset/coco_crops_few_shot/test/train/000000520433_173697.jpg
-I0601 22:21:30.980986 139667949066048 inference.py:60] Max probability is: 0.73876953125
-I0601 22:21:30.981054 139667949066048 inference.py:61] Predicted class is: This is a picture of a(n) train.
-I0601 22:21:31.015467 139667949066048 inference.py:59] Image path: ./dataset/coco_crops_few_shot/test/train/000000486372_174120.jpg
-I0601 22:21:31.015529 139667949066048 inference.py:60] Max probability is: 0.99072265625
-I0601 22:21:31.015597 139667949066048 inference.py:61] Predicted class is: This is a picture of a(n) train.
-I0601 22:21:31.050803 139667949066048 inference.py:59] Image path: ./dataset/coco_crops_few_shot/test/train/000000505542_170256.jpg
-I0601 22:21:31.050867 139667949066048 inference.py:60] Max probability is: 0.99609375
-I0601 22:21:31.050952 139667949066048 inference.py:61] Predicted class is: This is a picture of a(n) train.
-I0601 22:21:31.087241 139667949066048 inference.py:59] Image path: ./dataset/coco_crops_few_shot/test/train/000000113488_173542.jpg
-I0601 22:21:31.087307 139667949066048 inference.py:60] Max probability is: 0.9951171875
-I0601 22:21:31.087392 139667949066048 inference.py:61] Predicted class is: This is a picture of a(n) train.
-I0601 22:21:31.123594 139667949066048 inference.py:59] Image path: ./dataset/coco_crops_few_shot/test/train/000000130508_1366964.jpg
-I0601 22:21:31.123677 139667949066048 inference.py:60] Max probability is: 0.261962890625
-I0601 22:21:31.123716 139667949066048 inference.py:61] Predicted class is: This is a picture of a(n) train.
-I0601 22:21:31.157999 139667949066048 inference.py:59] Image path: ./dataset/coco_crops_few_shot/test/train/000000344969_173385.jpg
-I0601 22:21:31.158064 139667949066048 inference.py:60] Max probability is: 0.98681640625
-I0601 22:21:31.158149 139667949066048 inference.py:61] Predicted class is: This is a picture of a(n) train.
-I0601 22:21:31.194153 139667949066048 inference.py:59] Image path: ./dataset/coco_crops_few_shot/test/train/000000563665_174793.jpg
-I0601 22:21:31.194217 139667949066048 inference.py:60] Max probability is: 0.984375
-I0601 22:21:31.194302 139667949066048 inference.py:61] Predicted class is: This is a picture of a(n) train.
-I0601 22:21:31.231364 139667949066048 inference.py:59] Image path: ./dataset/coco_crops_few_shot/test/train/000000012679_170876.jpg
-I0601 22:21:31.231429 139667949066048 inference.py:60] Max probability is: 0.765625
-I0601 22:21:31.231496 139667949066048 inference.py:61] Predicted class is: This is a picture of a(n) train.
-I0601 22:21:31.232240 139667949066048 inference.py:68] Inference completed.
-``` 
+From our 503 images test dataset, covering 8 classes, we achieved quite interesting results. It's important to mention
+that the images are crops from the COCO dataset. We will spend some time collecting images to create small datasets
+to test Few/Zero-Shot tasks against CLIP-Mania. For instance, identifying people, animals, home appliances, etc.
+
+We will leave you to the results now.
+
+* AUC: 0.9917
+* Classification Report:
+```angular2html
+              precision    recall  f1-score   support
+
+        boat       1.00      0.94      0.97        79
+    airplane       0.98      0.98      0.98        60
+  motorcycle       0.96      0.98      0.97        54
+         bus       0.79      0.94      0.86        69
+       truck       0.83      0.73      0.78        81
+     bicycle       0.96      0.98      0.97        46
+         car       0.71      0.64      0.67        47
+       train       0.90      0.97      0.94        67
+
+    accuracy                           0.89       503
+   macro avg       0.89      0.89      0.89       503
+weighted avg       0.89      0.89      0.89       503
+```
+* Confusion Matrix:
+![Confusion Matrix](images/confusion_matrix.png)
 
 ### Running the Web Service Locally
 
