@@ -13,6 +13,8 @@ import clip
 from absl import app, flags, logging
 from absl.flags import FLAGS
 
+from tqdm import tqdm
+
 from clip_mania.utils.data.preprocess import DatasetProcessor
 
 flags.DEFINE_string(name='test_dataset_path', default=None, help='Absolute path to the test dataset location.',
@@ -55,7 +57,7 @@ def main(_args):
     # regex_p = re.compile(predicted_pattern)
 
     results = {"y": [], "y_hat": [], "predicted_prompt": [], "probability": []}
-    for image_path in images:
+    for image_path in tqdm(images):
         image = preprocess(PIL.Image.open(image_path)).unsqueeze(0).to(device)
         expected_prompt = f"This is a picture of a(n) {regex_e.search(image_path).group()}."
 
@@ -71,12 +73,12 @@ def main(_args):
             prob = probs.flatten()[max_index]
 
             results["y"].append(indexed_prompts[expected_prompt])
-            results["y_hat"].append(probs)
+            results["y_hat"].append(probs.squeeze())
             results["predicted_prompt"].append(prediction)
             results["probability"].append(prob)
 
-    results_df = pd.DataFrame(dict([(k, pd.Series(v)) for k, v in results.items()]))
-    results_df.to_csv("inference_results.csv", index=False)
+    results_df = pd.DataFrame(results)
+    results_df.to_pickle("inference_results.pk")
 
 
 if __name__ == '__main__':

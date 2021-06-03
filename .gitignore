@@ -152,3 +152,4 @@ cython_debug/
 **/dataset/coco_crops_zero_shot
 
 *.csv
+*.pk
