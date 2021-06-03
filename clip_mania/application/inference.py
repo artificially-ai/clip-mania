@@ -41,7 +41,7 @@ def main(_args):
     logging.info("Loading the pre-trained model...")
     model, preprocess = clip.load("ViT-B/32", device=device, jit=False)
 
-    logging.info("Loading the custom model'' state dictionary...")
+    logging.info("Loading the custom model's state dictionary...")
     checkpoint = torch.load(model_path)
     model.load_state_dict(checkpoint['model_state_dict'])
     model = model.eval().to(device)
