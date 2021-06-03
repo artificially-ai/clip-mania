@@ -150,3 +150,5 @@ cython_debug/
 # Datasets
 **/dataset/coco_crops_few_shot
 **/dataset/coco_crops_zero_shot
+
+*.csv
