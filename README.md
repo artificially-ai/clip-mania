@@ -155,6 +155,9 @@ weighted avg       0.89      0.89      0.89       503
 * Confusion Matrix:
 ![Confusion Matrix](images/confusion_matrix.png)
 
+All the information above is available in a Jupyter Notebook. If you can'' load it (sometimes GitHub doesn't want to),
+please check it here: [CLIP-Manil - results](https://nbviewer.jupyter.org/github/artificially-ai/clip-mania/blob/main/notebooks/CLIP-Mania%20-%20results.ipynb)
+
 ### Running the Web Service Locally
 
 [wip]
