@@ -50,7 +50,8 @@ def main(_args):
     prompts = list(indexed_prompts.keys())
     text = clip.tokenize(prompts).to(device)
 
-    full_path = os.path.join(test_dataset_path, "**/*.jpg")
+    # Please, make sure that you have only images in the inference dataset.
+    full_path = os.path.join(test_dataset_path, "**/*.*")
     images = glob.glob(full_path, recursive=True)
 
     expected_pattern = r"(?<=/test/)((?!=\D)).+(?=/(?=[\d|\D]))"
