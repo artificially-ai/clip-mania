@@ -32,4 +32,4 @@ class TestDatasetProcessor(TestCase):
         given_key = [expected_message]
         extracted_labels = [label for key, label in prompts.items() if key in given_key]
 
-        self.assertTrue(extracted_labels == [0])
+        self.assertTrue(extracted_labels == [1])

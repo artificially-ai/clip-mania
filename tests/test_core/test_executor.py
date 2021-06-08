@@ -39,7 +39,7 @@ class TestModelExecutor(TestCase):
 
         prompts = DatasetProcessor.create_indexed_prompts(dataset_path)
         classes = list(prompts.keys())
-        image_path = os.path.join(self.current_path, "dataset/test/airplane/airplane.jpg")
+        image_path = os.path.join(self.current_path, "dataset/test/airplane/airplane1.jpg")
 
         image = preprocess(PIL.Image.open(image_path)).unsqueeze(0).to(self.device)
         text = clip.tokenize(classes).to(self.device)
@@ -53,7 +53,7 @@ class TestModelExecutor(TestCase):
 
         max_index = np.argmax(probs)
         prediction = classes[max_index]
-        expected_prob = probs.flatten()[1]
+        expected_prob = probs.flatten()[0]
         highest_prob = probs.flatten()[max_index]
         self.assertTrue(expected_prob > 0.7)
         self.assertTrue(expected_prob == highest_prob)
